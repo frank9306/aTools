@@ -8,6 +8,21 @@
 ![Tauri](https://img.shields.io/badge/Tauri-2.0-orange)
 ![React](https://img.shields.io/badge/React-19-cyan)
 
+## 📸 Screenshots
+
+<div align="center">
+  <h3>Process Viewer & Cyberpunk Theme</h3>
+  <img src="screenshots/overview.png" alt="Process Viewer" width="800">
+  
+  <h3>Developer Tools (JSON & Base64)</h3>
+  <img src="screenshots/devtools_1.png" alt="DevTools JSON" width="400">
+  <img src="screenshots/devtools_2.png" alt="DevTools Base64" width="400">
+
+  <h3>Network Info & Settings</h3>
+  <img src="screenshots/network.png" alt="Network Tools" width="400">
+  <img src="screenshots/settings.png" alt="Settings" width="400">
+</div>
+
 ## ✨ Features
 
 ### 🖥️ System Monitor

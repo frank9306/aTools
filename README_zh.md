@@ -8,6 +8,21 @@
 ![Tauri](https://img.shields.io/badge/Tauri-2.0-orange)
 ![React](https://img.shields.io/badge/React-19-cyan)
 
+## 📸 应用截图
+
+<div align="center">
+  <h3>系统进程与赛博朋克风格</h3>
+  <img src="screenshots/overview.png" alt="Process Viewer" width="800">
+  
+  <h3>开发者工具 (JSON & Base64)</h3>
+  <img src="screenshots/devtools_1.png" alt="DevTools JSON" width="400">
+  <img src="screenshots/devtools_2.png" alt="DevTools Base64" width="400">
+
+  <h3>网络信息与设置中心</h3>
+  <img src="screenshots/network.png" alt="Network Tools" width="400">
+  <img src="screenshots/settings.png" alt="Settings" width="400">
+</div>
+
 ## ✨ 功能特性
 
 ### 🖥️ 系统监控 (System Monitor)
