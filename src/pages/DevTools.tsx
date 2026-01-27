@@ -44,7 +44,10 @@ const DevTools = () => {
                     {tabs.map((tab) => (
                         <button
                             key={tab.id}
-                            onClick={() => setActiveTab(tab.id)}
+                            onClick={() => {
+                                setActiveTab(tab.id);
+                                window.umami?.track('DevTools Tab Change', { tab: tab.id });
+                            }}
                             className={cn(
                                 "flex items-center gap-2 px-4 py-2 rounded text-sm font-mono uppercase tracking-wider transition-all whitespace-nowrap",
                                 activeTab === tab.id
@@ -70,11 +73,12 @@ const DevTools = () => {
     );
 };
 
-const CopyButton = ({ text }: { text: string }) => {
+const CopyButton = ({ text, onCopy }: { text: string; onCopy?: () => void }) => {
     const [copied, setCopied] = useState(false);
 
     const handleCopy = () => {
         navigator.clipboard.writeText(text);
+        onCopy?.();
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);
     };
@@ -112,7 +116,10 @@ const Base64Tool = () => {
         <div className="space-y-4">
             <div className="flex gap-4">
                 <button
-                    onClick={() => setMode("encode")}
+                    onClick={() => {
+                        setMode("encode");
+                         window.umami?.track('Base64 Mode', { mode: 'encode' });
+                    }}
                     className={cn(
                         "px-4 py-2 rounded text-sm font-mono border",
                         mode === "encode"
@@ -123,7 +130,10 @@ const Base64Tool = () => {
                     {t("devtools.base64.encode")}
                 </button>
                 <button
-                    onClick={() => setMode("decode")}
+                    onClick={() => {
+                        setMode("decode");
+                        window.umami?.track('Base64 Mode', { mode: 'decode' });
+                    }}
                     className={cn(
                         "px-4 py-2 rounded text-sm font-mono border",
                         mode === "decode"
@@ -183,6 +193,7 @@ const JsonTool = () => {
     }, [input]);
 
     const handleMinify = () => {
+         window.umami?.track('JSON Minify');
          try {
             const parsed = JSON.parse(input);
             setOutput(JSON.stringify(parsed));
@@ -240,6 +251,7 @@ const TimestampTool = () => {
     }, []);
 
     const convertTs = () => {
+        window.umami?.track('Timestamp Convert', { type: 'ts_to_date' });
         const ts = parseInt(tsInput);
         if (!isNaN(ts)) {
             setResult(new Date(ts).toLocaleString());
@@ -249,6 +261,7 @@ const TimestampTool = () => {
     };
 
     const convertDate = () => {
+        window.umami?.track('Timestamp Convert', { type: 'date_to_ts' });
         const d = new Date(dateInput);
         if (!isNaN(d.getTime())) {
             setResult(d.getTime().toString());
@@ -377,7 +390,10 @@ const AsciiTool = () => {
 
             <div className="relative group">
                 <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <CopyButton text={result} />
+                    <CopyButton 
+                        text={result} 
+                        onCopy={() => window.umami?.track('Ascii Copy', { font, textLength: text.length })} 
+                    />
                 </div>
                 <pre className="w-full overflow-x-auto bg-black border border-border rounded p-6 font-mono text-xs leading-none text-primary min-h-[200px] flex items-center justify-center whitespace-pre text-left">
                     {result}
@@ -399,6 +415,7 @@ const NetworkTool = () => {
     const { t } = useSettings();
 
     const fetchMyIp = async () => {
+        window.umami?.track('Network Fetch IP');
         setLoadingIp(true);
         try {
             // Using ipapi.co for detailed info, falling back to ipify for just IP
@@ -425,6 +442,7 @@ const NetworkTool = () => {
 
     const handleResolve = async () => {
         if (!domain) return;
+        window.umami?.track('Network DNS Resolve', { domain });
         setResolving(true);
         setResolveError("");
         setResolvedIps([]);

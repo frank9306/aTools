@@ -159,6 +159,7 @@ const ProcessViewer = () => {
                                         <button
                                             onClick={(e) => {
                                                 e.stopPropagation();
+                                                window.umami?.track('Process Copy', { name: p.name, pid: p.pid });
                                                 const content = JSON.stringify(p, null, 2);
                                                 navigator.clipboard.writeText(content).then(() => {
                                                     alert(`${t("process.name")}: ${p.name}\n${t("process.pid")}: ${p.pid}\n${t("process.copied")}`);

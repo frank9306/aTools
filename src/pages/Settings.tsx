@@ -17,9 +17,11 @@ const Settings = () => {
             if (autostart) {
                 await disable();
                 setAutostart(false);
+                window.umami?.track('Settings Autostart', { enabled: false });
             } else {
                 await enable();
                 setAutostart(true);
+                window.umami?.track('Settings Autostart', { enabled: true });
             }
         } catch (error) {
             console.error(error);
@@ -68,7 +70,10 @@ const Settings = () => {
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                         {/* Cyberpunk Theme */}
                         <button
-                            onClick={() => setTheme("cyberpunk")}
+                            onClick={() => {
+                                setTheme("cyberpunk");
+                                window.umami?.track('Settings Theme', { theme: 'cyberpunk' });
+                            }}
                             className={cn(
                                 "flex flex-col items-center gap-2 p-4 rounded border-2 transition-all",
                                 theme === "cyberpunk"
@@ -85,7 +90,10 @@ const Settings = () => {
 
                          {/* Hacker Theme */}
                          <button
-                            onClick={() => setTheme("hacker")}
+                            onClick={() => {
+                                setTheme("hacker");
+                                window.umami?.track('Settings Theme', { theme: 'hacker' });
+                            }}
                             className={cn(
                                 "flex flex-col items-center gap-2 p-4 rounded-none border-2 transition-all",
                                 theme === "hacker"
@@ -114,7 +122,10 @@ const Settings = () => {
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                         <button
-                            onClick={() => setLanguage("zh")}
+                            onClick={() => {
+                                setLanguage("zh");
+                                window.umami?.track('Settings Language', { target: 'zh' });
+                            }}
                             className={cn(
                                 "px-4 py-3 rounded border font-mono text-sm uppercase transition-all",
                                 language === "zh"
@@ -125,7 +136,10 @@ const Settings = () => {
                             {t("lang.zh")}
                         </button>
                         <button
-                            onClick={() => setLanguage("en")}
+                            onClick={() => {
+                                setLanguage("en");
+                                window.umami?.track('Settings Language', { target: 'en' });
+                            }}
                             className={cn(
                                 "px-4 py-3 rounded border font-mono text-sm uppercase transition-all",
                                 language === "en"
