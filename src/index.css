@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+}
+
+
+:root[data-theme="cyberpunk"] {
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  --card: 240 10% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 180 100% 50%; /* Cyberpunk Cyan */
+  --primary-foreground: 240 5.9% 10%;
+  --secondary: 300 100% 50%; /* Cyberpunk Neon Pink */
+  --secondary-foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --accent: 290 100% 50%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --ring: 180 100% 50%;
+}
+
+/* Hacker Theme - Pure Black & Green, No Rounding */
+:root[data-theme="hacker"] {
+  --background: 0 0% 0%;
+  --foreground: 120 100% 50%;
+  --card: 0 0% 2%;
+  --card-foreground: 120 100% 50%;
+  --popover: 0 0% 0%;
+  --popover-foreground: 120 100% 50%;
+  --primary: 120 100% 50%; /* Terminal Green */
+  --primary-foreground: 0 0% 0%;
+  --secondary: 120 80% 20%;
+  --secondary-foreground: 120 100% 50%;
+  --muted: 120 50% 10%;
+  --muted-foreground: 120 60% 40%;
+  --accent: 120 50% 10%;
+  --accent-foreground: 120 100% 50%;
+  --destructive: 0 100% 50%;
+  --destructive-foreground: 120 100% 50%;
+  --border: 120 100% 25%;
+  --input: 120 100% 15%;
+  --ring: 120 100% 50%;
+}
+
+@layer base {
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Theme Specific Globals */
+:root[data-theme="hacker"] * {
+    border-radius: 0 !important; /* Force square everywhere */
+    font-family: 'Courier New', Courier, monospace !important;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0f0f13;
+}
+::-webkit-scrollbar-thumb {
+  background: #00f0ff;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #ff00ff;
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+.glitch-text:hover {
+  animation: glitch 0.3s cubic-bezier(.25, .46, .45, .94) both infinite;
+  color: #ff00ff;
+  text-shadow: 2px 2px #00f0ff;
+}
