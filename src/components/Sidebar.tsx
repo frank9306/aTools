@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { Terminal, Code, Activity, Settings } from "lucide-react";
+import { Terminal, Code, Activity, Settings, Bot } from "lucide-react";
 import { cn } from "../lib/utils";
 import { useSettings } from "../context/SettingsContext";
 
@@ -10,6 +10,7 @@ const Sidebar = () => {
     const navItems = [
         { name: t("nav.processes"), path: "/", icon: Activity },
         { name: t("nav.devtools"), path: "/devtools", icon: Code },
+        { name: t("nav.automation"), path: "/automation", icon: Bot },
         { name: t("nav.settings"), path: "/settings", icon: Settings },
     ];
 

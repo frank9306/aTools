@@ -3,6 +3,7 @@ import Layout from "./components/Layout";
 import ProcessViewer from "./pages/ProcessViewer";
 import DevTools from "./pages/DevTools";
 import Settings from "./pages/Settings";
+import Automation from "./pages/Automation";
 import { SettingsProvider } from "./context/SettingsContext";
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<ProcessViewer />} />
             <Route path="devtools" element={<DevTools />} />
+            <Route path="automation" element={<Automation />} />
             <Route path="settings" element={<Settings />} />
           </Route>
         </Routes>

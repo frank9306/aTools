@@ -5,6 +5,8 @@ use std::collections::HashMap;
 use std::process::Command;
 use std::os::windows::process::CommandExt;
 
+mod scheduler;
+
 const CREATE_NO_WINDOW: u32 = 0x08000000;
 
 #[derive(Serialize, Deserialize, Clone)]
@@ -72,6 +74,7 @@ fn get_window_handles() -> HashMap<u32, String> {
         let stdout = String::from_utf8_lossy(&output.stdout);
         
         #[derive(Deserialize)]
+        #[allow(non_snake_case)]
         struct HandleInfo {
             Id: u32,
             MainWindowHandle: usize, // Handle can be large
@@ -157,6 +160,10 @@ pub fn run() {
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_autostart::init(MacosLauncher::LaunchAgent, None))
         .setup(|app| {
+            // Initialize Scheduler
+            let scheduler_state = scheduler::init(app.handle().clone());
+            app.manage(scheduler_state);
+
             let quit_i = MenuItem::with_id(app, "quit", "Quit aTools", true, None::<&str>)?;
             let show_i = MenuItem::with_id(app, "show", "Show Window", true, None::<&str>)?;
             let menu = Menu::with_items(app, &[&show_i, &quit_i])?;
@@ -165,10 +172,9 @@ pub fn run() {
             // In a real app we might bundle the icon, but app.default_window_icon() should work if configured.
             // Let's print an error if it fails instead of unwrapping potentially.
             let icon = app.default_window_icon().cloned().unwrap_or_else(|| {
-                 // Fallback or explicit load if needed.
-                 // For now, let's assuming bundle config is correct but maybe failed to load.
-                 // We can try to use a built-in one or just not panic.
-                 panic!("Failed to load default window icon for tray!");
+                 // Fallback to embedded icon to prevent panic on startup (especially autostart)
+                 // if resource resolution fails.
+                 Image::from_bytes(include_bytes!("../icons/icon.png")).expect("Failed to create fallback icon")
             });
 
             let _tray = TrayIconBuilder::with_id("tray")
@@ -219,7 +225,17 @@ pub fn run() {
             }
             _ => {}
         })
-        .invoke_handler(tauri::generate_handler![greet, get_processes, resolve_domain])
+        .invoke_handler(tauri::generate_handler![
+            greet, 
+            get_processes, 
+            resolve_domain,
+            scheduler::get_tasks,
+            scheduler::add_task,
+            scheduler::update_task,
+            scheduler::delete_task,
+            scheduler::run_task_manual,
+            scheduler::stop_task
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
